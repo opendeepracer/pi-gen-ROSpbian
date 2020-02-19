@@ -1,8 +1,12 @@
-# pi-gen
+# pi-gen-ROSpbian
 
-_Tool used to create the raspberrypi.org Raspbian images_
+_Tool used to create ROSpbian images_
 
+ROSpbian images are Raspbian images with ROS melodic installation.  Tested on Rapsberry Pi. The images are used by the open Deepracer project. 
 
+This is a fork of https://github.com/RPi-Distro/pi-gen
+
+The documentation below is from pi-gen with a few tweaks
 ## Dependencies
 
 pi-gen runs on Debian based operating systems. Currently it is only supported on
@@ -29,10 +33,10 @@ environment variables.
 
 The following environment variables are supported:
 
- * `IMG_NAME` **required** (Default: unset)
+ * `IMG_NAME` **required** (Default: ROSpbian)
 
    The name of the image to build with the current stage directories.  Setting
-   `IMG_NAME=Raspbian` is logical for an unmodified RPi-Distro/pi-gen build,
+   `IMG_NAME=ROSpbian` is logical for an unmodified RPi-Distro/pi-gen build,
    but you should use something else for a customized version.  Export files
    in stages may add suffixes to `IMG_NAME`.
 
@@ -94,7 +98,7 @@ The following environment variables are supported:
    keyboard-configuration` and look at the
    `keyboard-configuration/xkb-keymap` value.
 
- * `KEYBOARD_LAYOUT` (Default: "English (UK)" )
+ * `KEYBOARD_LAYOUT` (Default: "English (US)" )
 
    Default keyboard layout.
 
@@ -102,18 +106,16 @@ The following environment variables are supported:
    keyboard-configuration` and look at the
    `keyboard-configuration/variant` value.
 
- * `TIMEZONE_DEFAULT` (Default: "Europe/London" )
-
-   Default keyboard layout.
+ * `TIMEZONE_DEFAULT` (Default: "Etc/UTC" )
 
    To get the current value from a running system, look in
    `/etc/timezone`.
 
- * `FIRST_USER_NAME` (Default: "pi" )
+ * `FIRST_USER_NAME` (Default: "ros" )
 
    Username for the first user
 
- * `FIRST_USER_PASS` (Default: "raspberry")
+ * `FIRST_USER_PASS` (Default: "melodic")
 
    Password for the first user
 
@@ -121,7 +123,7 @@ The following environment variables are supported:
 
    If these are set, they are use to configure `wpa_supplicant.conf`, so that the Raspberry Pi can automatically connect to a wifi network on first boot. If `WPA_ESSID` is set and `WPA_PASSWORD` is unset an unprotected wifi network will be configured. If set, `WPA_PASSWORD` must be between 8 and 63 characters.
 
- * `ENABLE_SSH` (Default: `0`)
+ * `ENABLE_SSH` (Default: `1`)
 
    Setting to `1` will enable ssh server for remote log in. Note that if you are using a common password such as the defaults there is a high risk of attackers taking over you Raspberry Pi.
 
@@ -132,13 +134,13 @@ The following environment variables are supported:
 A simple example for building Raspbian:
 
 ```bash
-IMG_NAME='Raspbian'
+IMG_NAME='ROSpbian'
 ```
 
 The config file can also be specified on the command line as an argument the `build.sh` or `build-docker.sh` scripts.
 
 ```
-./build.sh -c myconfig
+./build.sh -c rospbian_config
 ```
 
 This is parsed after `config` so can be used to override values set there.
@@ -272,16 +274,19 @@ maintenance and allows for more easy customization.
    you were looking for something between truly minimal and Raspbian-Lite,
    here's where you start trimming.
 
- - **Stage 3** - desktop system.  Here's where you get the full desktop system
+- **Stage 2 ROS** - ROS system without desktop.  Useful for headless robots
+   This stage produces the ROSpbian-ROS-base image.  
+
+ - **Stage 3** - desktop system including ROS.  
+   Here's where you get the full ROS desktop system
    with X11 and LXDE, web browsers, git for development, Raspbian custom UI
    enhancements, etc.  This is a base desktop system, with some development
    tools installed.
 
- - **Stage 4** - Normal Raspbian image. System meant to fit on a 4GB card. This is the
-   stage that installs most things that make Raspbian friendly to new
-   users like system documentation.
+ - **Stage 4** - Normal ROSpbian image. System meant to fit on a 4GB card. 
+   This is the stage that installs most things that make ROSpbian friendly to new users like system documentation.
 
- - **Stage 5** - The Raspbian Full image. More development
+ - **Stage 5** - The ROSpbian Full image. More development
    tools, an email client, learning tools like Scratch, specialized packages
    like sonic-pi, office productivity, etc.  
 
@@ -296,7 +301,7 @@ to `./stage2` (if building a minimal system).
 
 ```bash
 # Example for building a lite system
-echo "IMG_NAME='Raspbian'" > config
+echo "IMG_NAME='Robotbian'" > config
 touch ./stage3/SKIP ./stage4/SKIP ./stage5/SKIP
 touch ./stage4/SKIP_IMAGES ./stage5/SKIP_IMAGES
 sudo ./build.sh  # or ./build-docker.sh

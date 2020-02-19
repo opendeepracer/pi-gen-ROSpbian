@@ -1,0 +1,11 @@
+# Generate a ros PI image
+IMG_NAME="ROSpbian"
+LOCALE_DEFAULT="en_GB.UTF8"
+TARGET_HOSTNAME="rospberry"
+KEYBOARD_KEYMAP="us"
+KEYBOARD_LAYOUT="English (US)"
+TIMEZONE_DEFAULT="Etc/UTC"
+FIRST_USER_NAME="ros"
+FIRST_USER_PASS="melodic"
+ENABLE_SSH=1
+STAGE_LIST="stage0 stage1 stage2 stage2-ros"
