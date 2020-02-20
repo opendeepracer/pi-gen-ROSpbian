@@ -1,0 +1,14 @@
+[Unit]
+Description=Set Hostname 
+ConditionPathExists=/boot/hostname.conf
+Before=dhcpcd.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=
+ExecStartPost=
+ExecStartPost=
+
+[Install]
+WantedBy=multi-user.target
