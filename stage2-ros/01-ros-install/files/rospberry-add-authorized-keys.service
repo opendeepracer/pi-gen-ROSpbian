@@ -1,0 +1,12 @@
+[Unit]
+Description=Update authorized keys from /boot/authorized_keys.d  
+ConditionPathExists=/boot/authorized_keys.d
+Before=ssh.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/bin/sh -c "/usr/local/sbin/update-ssh-authorized-keys.sh /boot/authorized_keys.d"
+
+[Install]
+WantedBy=multi-user.target

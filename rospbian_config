@@ -8,6 +8,6 @@ TIMEZONE_DEFAULT="Etc/UTC"
 FIRST_USER_NAME="ros"
 FIRST_USER_PASS="melodic"
 ENABLE_SSH=1
-STAGE_LIST="stage0 stage1 stage2 stage2-ros"
+STAGE_LIST="stage0 stage1 stage2 stage2-ros stage3 stage4"
 PI_GEN="pi-gen-rospbian"
 PI_GEN_REPO="https://github.com/opendeepracer/pi-gen-ROSpbian"

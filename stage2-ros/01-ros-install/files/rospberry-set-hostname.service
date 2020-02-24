@@ -1,0 +1,13 @@
+[Unit]
+Description=Set Hostname from /boot/hostname 
+ConditionPathExists=/boot/hostname  
+Before=avahi-daemon.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/bin/sh -c "/usr/local/sbin/set-hostname.sh `cat /boot/hostname`"
+ExecStartPost=/bin/rm /boot/hostname
+
+[Install]
+WantedBy=multi-user.target
